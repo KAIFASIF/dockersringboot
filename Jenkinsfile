@@ -6,61 +6,33 @@ pipeline {
         stage('checkout') {
             steps {
                 // Checkout the code from the specified GitHub repository and branch
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/KAIFASIF/vitereactapp.git']])
+                git branch: 'master', url: 'https://github.com/KAIFASIF/dockersringboot.git'
             }
         }
 
-        // Stage 2: Delete all existing containers
-        stage('delete_containers') {
-            steps {
-                // Delete all Docker containers
-                sh 'docker rm -f $(docker ps -a -q) || true'
-            }
-        }
-
-        // Stage 3: Delete all existing images
-        stage('delete_images') {
-            steps {
-                // Delete all Docker images
-                sh 'docker rmi -f $(docker images -q) || true'
-            }
-        }
-
-        // Stage 4: Build Docker image
+        // Stage 2: Build Spring Boot application
         stage('build') {
             steps {
-                // Print information about the build environment
-                sh 'uname -a'
-                sh 'df -h'
-
-                // Build Docker image with the tag 'vitedockerreact'
-                sh 'docker build -t vite-docker-app .'
+                // Build the Spring Boot application using Maven
+                sh 'mvn clean package'
             }
         }
 
-        // Stage 5: Kill process on port 3000 and run Docker container
-        stage('run') {
+        // Stage 3: Build Docker image
+        stage('docker_build') {
             steps {
-                // Print Docker version for debugging
-                sh 'docker version'
+                // Build Docker image for the Spring Boot application
+                sh 'docker build -t my-spring-boot-app .'
+            }
+        }
 
-                // Print the images available on the host for debugging
-                sh 'docker images'
+        
 
-                // Kill the process using port 3000
-                sh 'fuser -k 3000/tcp || true'
-
+        // Stage 6: Run Docker container
+        stage('docker_run') {
+            steps {
                 // Run Docker container with port mapping (host:container)
-                sh 'docker run -d -p 3000:80 --name react-container vite-docker-app'
-
-                // Sleep for a short duration to allow the container to start
-                sh 'sleep 10'
-
-                // Print running containers for debugging
-                sh 'docker ps'
-
-                // Print container logs for debugging
-                sh 'docker logs $(docker ps -q)'
+                sh 'docker run -d -p 9191:9000 --name my-container my-spring-boot-app'
             }
         }
     }
