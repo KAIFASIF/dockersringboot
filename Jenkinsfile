@@ -32,7 +32,7 @@ pipeline {
         stage('docker_run') {
             steps {
                 // Run Docker container with port mapping (host:container)
-                sh 'docker run -d -p 9191:9000 --name my-container my-spring-boot-app'
+                sh 'docker run -d -p 9000:9000 --name my-container my-spring-boot-app'
             }
         }
     }
