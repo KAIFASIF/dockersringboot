@@ -15,12 +15,12 @@ public class Dockertesting {
     // @Autowired
     // private DeviceRepo service;
 
-    @GetMapping("/")
+    @GetMapping("/getdevicedata")
     public String testMethod() {
         return "get sucess";
     }
 
-    @PostMapping("/")
+    @PostMapping("/postdevicedata")
     public String postData(@RequestBody Device data) {
         System.out.println("************************************");
         System.out.println(data);
