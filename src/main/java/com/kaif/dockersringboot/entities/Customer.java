@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device {
+public class Customer {
 
-    private Long id;
-
-    private Long time;
-    private String msg;
-    private Long humidity;
-    private Long temperature;
+   
+    private String name;
+    private String email;
+    private Long mobile;
 
 }
