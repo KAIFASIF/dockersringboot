@@ -1,5 +1,7 @@
 package com.kaif.dockersringboot.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +17,7 @@ public class CustomerController {
     @Autowired
     private CustomerPublisherService customerPublisher;
 
-    @PostMapping("/customer")
+    @PostMapping("/send")
     public ResponseEntity<?> sendString(@RequestBody Customer customer) {
         try {
 
@@ -29,5 +31,7 @@ public class CustomerController {
                     .build();
         }
     }
+
+   
 
 }
