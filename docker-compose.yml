@@ -2,6 +2,9 @@ version: '3.8'
 
 services:
   spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: imageone
     ports:
       - "9000:9000"
