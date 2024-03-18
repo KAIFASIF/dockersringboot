@@ -1,26 +1,38 @@
 package com.kaif.dockersringboot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kaif.dockersringboot.entities.Device;
-import com.kaif.dockersringboot.repos.DeviceRepo;
+import com.kaif.dockersringboot.publisher.DevicePublishService;
 
 @RestController
-public class TestController {
+public class DeviceController {
 
     @Autowired
-    private DeviceRepo deviceRepo;
+    private DevicePublishService service;
 
     @PostMapping("/send")
-    public String sendData(@RequestBody Device payload) {
-
-        deviceRepo.save(payload);
-
-        return "post /send success";
+    public ResponseEntity<?> sendString(@RequestBody Device payload) {
+        try {
+            service.sendCustomerMessageToTopic(payload);
+            return ResponseEntity.ok("customer json  published successfully ..");
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError()
+                    .build();
+        }
     }
+
+    // @PostMapping("/send")
+    // public String sendData(@RequestBody Device payload) {
+
+    // deviceRepo.save(payload);
+
+    // return "post /send success";
+    // }
     // @PostMapping("/send")
     // public String sendData(@RequestBody Map<String, Object> payload) {
     // System.out.println("**************ddddddddd*************************");
