@@ -1,17 +1,15 @@
 version: '3.8'
 
 services:
-  spring-app:
+  springboot-app:
     build:
       context: .
       dockerfile: Dockerfile
     image: imageone
     ports:
       - "9000:9000"
-    depends_on:
-      - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kaifd
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
 
@@ -23,5 +21,3 @@ services:
       POSTGRES_DB: kaifd
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
-
-
