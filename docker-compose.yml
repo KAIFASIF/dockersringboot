@@ -15,8 +15,7 @@
 #       KAFKA_ADVERTISED_HOST_NAME: localhost
 #       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-
-version: '3'
+version: "3"
 
 services:
   zookeeper:
@@ -24,7 +23,7 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
-  
+
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
@@ -47,3 +46,15 @@ services:
       - kafka
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: kaifd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
