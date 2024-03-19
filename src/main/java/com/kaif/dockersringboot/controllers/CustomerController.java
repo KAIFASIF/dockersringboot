@@ -1,7 +1,5 @@
 package com.kaif.dockersringboot.controllers;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,15 +16,15 @@ public class CustomerController {
     private CustomerPublisherService customerPublisher;
 
     // @PostMapping("/customer")
-    // public  String sendString(@RequestBody Map<String, Object> payload) {
-    //     System.out.println("**************cccccccc*************************");
-    //     for (Map.Entry<String, Object> entry : payload.entrySet()) {
-    //         String key = entry.getKey();
-    //         Object value = entry.getValue();
-    //         System.out.println("Key: " + key + ", Value: " + value);
-    //     }
-    //     System.out.println("**************cccccccc*************************");
-    //     return "get /send success";
+    // public String sendString(@RequestBody Map<String, Object> payload) {
+    // System.out.println("**************cccccccc*************************");
+    // for (Map.Entry<String, Object> entry : payload.entrySet()) {
+    // String key = entry.getKey();
+    // Object value = entry.getValue();
+    // System.out.println("Key: " + key + ", Value: " + value);
+    // }
+    // System.out.println("**************cccccccc*************************");
+    // return "get /send success";
     // }
 
     @PostMapping("/send")
@@ -45,17 +43,17 @@ public class CustomerController {
     }
     // @PostMapping("/customer")
     // public ResponseEntity<?> sendString(@RequestBody Customer customer) {
-    //     try {
+    // try {
 
-    //         for (int i = 0; i < 5; i++) {
-    //             customerPublisher.sendCustomerMessageToTopic(customer);
-    //         }
+    // for (int i = 0; i < 5; i++) {
+    // customerPublisher.sendCustomerMessageToTopic(customer);
+    // }
 
-    //         return ResponseEntity.ok("customer json  published successfully ..");
-    //     } catch (Exception ex) {
-    //         return ResponseEntity.internalServerError()
-    //                 .build();
-    //     }
+    // return ResponseEntity.ok("customer json published successfully ..");
+    // } catch (Exception ex) {
+    // return ResponseEntity.internalServerError()
+    // .build();
+    // }
     // }
 
 }
