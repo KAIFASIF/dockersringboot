@@ -46,7 +46,6 @@
 #       POSTGRES_USER: postgres
 #       POSTGRES_PASSWORD: root
 
-
 # Production
 # version: "3"
 
@@ -95,20 +94,21 @@
 #       POSTGRES_USER: postgres
 #       POSTGRES_PASSWORD: 2786
 
-
 # Test
 version: "3"
 
 services:
   zookeeper:
     image: wurstmeister/zookeeper
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
+    container_name: zookeeper_container
+    networks:
+      - my_network
 
   kafka:
     image: wurstmeister/kafka
-    container_name: kafka
+    container_name: kafka_container
+    networks:
+      - my_network
     ports:
       - "9092:9092"
     environment:
@@ -124,12 +124,14 @@ services:
       dockerfile: Dockerfile
     image: imageone
     container_name: imageone_container
+    networks:
+      - my_network
     ports:
       - "9000:9000"
     depends_on:
       - kafka
     environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: 172.31.2.100:9093
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 2786
@@ -137,9 +139,15 @@ services:
   postgres:
     image: postgres
     container_name: postgres_container
+    networks:
+      - my_network
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: fasmho
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 2786
+
+networks:
+  my_network:
+    driver: bridge
