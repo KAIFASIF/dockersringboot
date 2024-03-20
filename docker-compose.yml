@@ -1,50 +1,50 @@
 # # # Devlopment
-# version: "3"
+version: "3"
 
-# services:
-#   zookeeper:
-#     image: wurstmeister/zookeeper
-#     container_name: zookeeper
-#     ports:
-#       - "2181:2181"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
 
-#   kafka:
-#     image: wurstmeister/kafka
-#     container_name: kafka
-#     ports:
-#       - "9092:9092"
-#     environment:
-#       KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
-#       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-#       KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-#       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-#       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-#   spring-boot-app:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     image: imageone
-#     container_name: imageone_container
-#     ports:
-#       - "9000:9000"
-#     depends_on:
-#       - kafka
-#     environment:
-#       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-#       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
-#       SPRING_DATASOURCE_USERNAME: postgres
-#       SPRING_DATASOURCE_PASSWORD: root
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: imageone
+    container_name: imageone_container
+    ports:
+      - "9000:9000"
+    depends_on:
+      - kafka
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
 
-#   postgres:
-#     image: postgres
-#     container_name: postgres_container
-#     ports:
-#       - "5432:5432"
-#     environment:
-#       POSTGRES_DB: kaifd
-#       POSTGRES_USER: postgres
-#       POSTGRES_PASSWORD: root
+  postgres:
+    image: postgres
+    container_name: postgres_container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: kaifd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
 
 # Production
 # version: "3"
@@ -95,51 +95,51 @@
 #       POSTGRES_PASSWORD: 2786
 
 # Test
-version: "3"
+# version: "3"
 
-services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper_container
-    networks:
-      - my_network
+# services:
+#   zookeeper:
+#     image: wurstmeister/zookeeper
+#     container_name: zookeeper_container
+#     networks:
+#       - my_network
 
-  kafka:
-    image: wurstmeister/kafka
-    container_name: kafka_container
-    hostname: kafka
-    networks:
-      - my_network
-    ports:
-      - "9092:9092"
-    environment:    
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#   kafka:
+#     image: wurstmeister/kafka
+#     container_name: kafka_container
+#     hostname: kafka
+#     networks:
+#       - my_network
+#     ports:
+#       - "9092:9092"
+#     environment:    
+#       KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://0.0.0.0:9092
+#       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+#       KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+#       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+#       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
 
-  spring-boot-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: imageone
-    container_name: imageone_container
-    networks:
-      - my_network
-    ports:
-      - "9000:9000"
-    depends_on:
-      - kafka
-    environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 2786
+#   spring-boot-app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     image: imageone
+#     container_name: imageone_container
+#     networks:
+#       - my_network
+#     ports:
+#       - "9000:9000"
+#     depends_on:
+#       - kafka
+#     environment:
+#       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
+#       SPRING_DATASOURCE_USERNAME: postgres
+#       SPRING_DATASOURCE_PASSWORD: 2786
 
   
 
-networks:
-  my_network:
-    driver: bridge
+# networks:
+#   my_network:
+#     driver: bridge
