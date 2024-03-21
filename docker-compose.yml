@@ -38,7 +38,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 2786
+      SPRING_DATASOURCE_PASSWORD: postgres
 
   postgres:
     image: postgres
@@ -47,4 +47,4 @@ services:
     environment:
       POSTGRES_DB: fasmho
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 2786
+      POSTGRES_PASSWORD: postgres
