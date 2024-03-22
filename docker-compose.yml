@@ -191,6 +191,7 @@ services:
 
   postgres:
     image: postgres
+    hostname: postgres
     ports:
       - "5432:5432"
     environment:
