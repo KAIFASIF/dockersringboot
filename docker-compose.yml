@@ -1,4 +1,4 @@
-# # Devlopment
+#  Devlopment
 # version: "3"
 
 # services:
@@ -32,20 +32,36 @@
 #       - kafka
 #     environment:
 #       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
+#       SPRING_DATASOURCE_USERNAME: postgres
+#       SPRING_DATASOURCE_PASSWORD: root
 
-# Production
+#   postgres:
+#     image: postgres
+#     container_name: postgres_container
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_DB: kaifd
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: root
+
+# #Production
 # version: "3"
 
 # services:
 #   zookeeper:
 #     image: wurstmeister/zookeeper
-#     container_name: zookeeper
-#     ports:
-#       - "2181:2181"
+#     container_name: zookeeper_container
+#     networks:
+#       - my_network
 
 #   kafka:
 #     image: wurstmeister/kafka
-#     container_name: kafka
+#     container_name: kafka_container
+#     hostname: kafka
+#     networks:
+#       - my_network
 #     ports:
 #       - "9092:9092"
 #     environment:
@@ -61,6 +77,8 @@
 #       dockerfile: Dockerfile
 #     image: imageone
 #     container_name: imageone_container
+#     networks:
+#       - my_network
 #     ports:
 #       - "9000:9000"
 #     depends_on:
@@ -69,20 +87,22 @@
 #       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
 #       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
 #       SPRING_DATASOURCE_USERNAME: postgres
-#       SPRING_DATASOURCE_PASSWORD: 2786
+#       SPRING_DATASOURCE_PASSWORD: postgres
 
 #   postgres:
+#     restart: always
 #     image: postgres
-#     container_name: postgres_container
+#     hostname: postgres
+#     networks:
+#       - my_network
 #     ports:
 #       - "5432:5432"
 #     environment:
-#       POSTGRES_DB: fasmho
-#       POSTGRES_USER: postgres
-#       POSTGRES_PASSWORD: 2786
+#       - POSTGRES_DB=fasmho
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=postgres
 
-# Test
-version: "3"
+version: "3.8"
 
 services:
   zookeeper:
@@ -106,7 +126,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-  spring-boot-app:
+  springboot-app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -119,7 +139,19 @@ services:
     depends_on:
       - kafka
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fasmho
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 networks:
   my_network:
