@@ -104,7 +104,7 @@
 #       - POSTGRES_PASSWORD=postgres
 
 
-version: "3"
+version: "3.8"
 
 services:
   zookeeper:
@@ -128,7 +128,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-  spring-boot-app:
+  springboot-app:
     build:
       context: .
       dockerfile: Dockerfile
@@ -141,7 +141,19 @@ services:
     depends_on:
       - kafka
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+
+    postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fasmho
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
 networks:
   my_network:
