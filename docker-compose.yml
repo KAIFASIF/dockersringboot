@@ -146,6 +146,8 @@ services:
 
   postgres:
     image: postgres
+    networks:
+      - my_network
     ports:
       - "5432:5432"
     environment:
