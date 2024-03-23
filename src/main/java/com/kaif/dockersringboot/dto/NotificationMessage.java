@@ -10,6 +10,7 @@ public class NotificationMessage {
     private String title;
     private String body;
     // private String image;
+    // private String image;
     private Map<String, Object> data;
 
 }
