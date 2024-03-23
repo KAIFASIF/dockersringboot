@@ -21,7 +21,7 @@ public class DeviceSubscribe {
     @KafkaListener(topics = "device-topic", groupId = "customergroup")
     public void listen(Device payload) {
         log.info("Subscribed customer json: {}", payload);
-        deviceRepo.save(payload);
+        // deviceRepo.save(payload);
     }
 
 }

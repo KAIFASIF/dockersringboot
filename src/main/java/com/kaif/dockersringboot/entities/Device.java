@@ -18,9 +18,16 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long time;
-    private String msg;
-    private Long humidity;
-    private Long temperature;
+    private Long stateOfCharge;
+    private Long packVoltage;
+    private Long current;
+    private Long temperature1;
+    private Long temperature2;
+    private Long temperature3;
+    private Long temperature4;
+    private Long minCellVoltage;
+    private Long maxCellVoltage;
+    private String faultStatus;
+    private String fetProtectionStatus;
 
 }
