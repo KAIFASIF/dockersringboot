@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HeaderTokenController {
+public class TokenController {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -28,12 +28,8 @@ public class HeaderTokenController {
 
     @PostMapping("/fcm-token")
     public void verifyTokenGetMethod(@RequestBody Map<String, String> token) {
-        System.out.println("************** token in header get request  /home *************************");
-        System.out.println(token);
-        // String key = token.get("fcmToken");
-        // String value = token.get("value");
-        // redisTemplate.opsForValue().set("fcmToken", value);
-        System.out.println("**************end*************************");
+        String fcmToken = token.get("fcmToken");
+        redisTemplate.opsForValue().set("fcmToken", fcmToken);
     }
 
     // @PostMapping("/send")

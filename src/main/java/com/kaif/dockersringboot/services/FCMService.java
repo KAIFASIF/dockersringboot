@@ -27,7 +27,6 @@ public class FCMService {
 
         Message message = Message.builder()
                 .setToken(redisTemplate.opsForValue().get("fcmToken"))
-
                 .putData("jsonData", jsonDataString)
                 .build();
 
