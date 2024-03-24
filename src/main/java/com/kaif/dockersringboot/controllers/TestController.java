@@ -20,18 +20,31 @@ public class TestController {
        @Autowired
     private StringRedisTemplate redisTemplate;
 
-     @PostMapping("/fcm-token")
-     public void verifyTokenGetMethod(@RequestBody Map<String, String> token) {
-         System.out.println("************** token in header get request  /home *************************");
-         String fcmToken = token.get("fcmToken");
-        //  System.out.println(key);
-         // String value = token.get("value");
-         redisTemplate.opsForValue().set("fcmToken", fcmToken);
+    @PostMapping("/fcm-token")
+    public String verifyTokenGetMethod(@RequestBody Map<String, String> token) {
+        try {
+            String fcmToken = token.get("fcmToken");
+            redisTemplate.opsForValue().set("fcmToken", fcmToken);
+            return "Fcm token saved successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Fcm token not saved";
+        }
+    }
 
-         System.out.println("**************get*************************");
-         System.out.println(redisTemplate.opsForValue().get("fcmToken"));
-         System.out.println("**************end*************************");
-     }
+    //  @PostMapping("/fcm-token")
+    //  public void verifyTokenGetMethod(@RequestBody Map<String, String> token) {
+    //      System.out.println("************** token in header get request  /home *************************");
+    //      String fcmToken = token.get("fcmToken");
+    //     //  System.out.println(key);
+    //      // String value = token.get("value");
+    //      redisTemplate.opsForValue().set("fcmToken", fcmToken);
+
+    //      System.out.println("**************get*************************");
+    //      System.out.println(redisTemplate.opsForValue().get("fcmToken"));
+    //      System.out.println("**************end*************************");
+    //  }
+
     // @PostMapping("/send")
     // public String sendData(@RequestBody Map<String, Object> payload) {
     //     System.out.println("**************ddddddddd*************************");
