@@ -27,9 +27,15 @@ public class TokenController {
     // }
 
     @PostMapping("/fcm-token")
-    public void verifyTokenGetMethod(@RequestBody Map<String, String> token) {
-        String fcmToken = token.get("fcmToken");
-        redisTemplate.opsForValue().set("fcmToken", fcmToken);
+    public String verifyTokenGetMethod(@RequestBody Map<String, String> token) {
+        try {
+            String fcmToken = token.get("fcmToken");
+            redisTemplate.opsForValue().set("fcmToken", fcmToken);
+            return "Fcm token saved successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Fcm token not saved";
+        }
     }
 
     // @PostMapping("/send")
