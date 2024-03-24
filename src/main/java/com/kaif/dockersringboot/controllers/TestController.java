@@ -16,7 +16,7 @@ public class TestController {
     @Autowired
      private DeviceRepo deviceRepo;
 
-    @PostMapping("/send")
+    @PostMapping("/sendsd")
     public String sendData(@RequestBody Device payload) {
 
         deviceRepo.save(payload);

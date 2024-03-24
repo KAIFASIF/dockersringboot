@@ -24,27 +24,32 @@
 #       POSTGRES_PASSWORD: root
 
 
-# Prod
-version: '3.8'
+# # Prod
+# version: '3.8'
 
-services:
-  springboot-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: imageone
-    ports:
-      - "9000:9000"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+# services:
+#   springboot-app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     image: imageone
+#     ports:
+#       - "9000:9000"
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fasmho
+#       SPRING_DATASOURCE_USERNAME: postgres
+#       SPRING_DATASOURCE_PASSWORD: postgres
 
-  postgres:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: fasmho
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+#   postgres:
+#     image: postgres
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_DB: fasmho
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+
+
+
+
+
