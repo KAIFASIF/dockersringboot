@@ -3,6 +3,7 @@ package com.kaif.dockersringboot.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,13 +17,21 @@ public class TestController {
     @Autowired
      private DeviceRepo deviceRepo;
 
-    @PostMapping("/sendsd")
-    public String sendData(@RequestBody Device payload) {
+       @Autowired
+    private StringRedisTemplate redisTemplate;
 
-        deviceRepo.save(payload);
-       
-        return "post /send success";
-    }
+     @PostMapping("/fcm-token")
+     public void verifyTokenGetMethod(@RequestBody Map<String, String> token) {
+         System.out.println("************** token in header get request  /home *************************");
+         String fcmToken = token.get("fcmToken");
+        //  System.out.println(key);
+         // String value = token.get("value");
+         redisTemplate.opsForValue().set("fcmToken", fcmToken);
+
+         System.out.println("**************get*************************");
+         System.out.println(redisTemplate.opsForValue().get("fcmToken"));
+         System.out.println("**************end*************************");
+     }
     // @PostMapping("/send")
     // public String sendData(@RequestBody Map<String, Object> payload) {
     //     System.out.println("**************ddddddddd*************************");
