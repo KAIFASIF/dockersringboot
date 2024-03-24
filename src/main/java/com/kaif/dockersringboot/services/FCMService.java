@@ -1,6 +1,8 @@
 package com.kaif.dockersringboot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class FCMService {
 
     @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Autowired
     private FirebaseMessaging firebaseMessaging;
 
     public void sendPushNotification(Device payload) throws JsonProcessingException, FirebaseMessagingException {
@@ -21,8 +26,8 @@ public class FCMService {
         String jsonDataString = objectMapper.writeValueAsString(payload);
 
         Message message = Message.builder()
-                .setToken(
-                        "fjFrS7TjTxjsONSCo92kK3:APA91bEtQtZ6CnxtDiEDQuxcqQ_6CbLiGt7IWjLYZNYknHOO-ZHILo0-7uQxZhfJIXRuLTlwb_6WIbRua_jTWH4RxfiGOkOWHP9vVa562nifY3NA7tXupeUMCcnEEbMOSWuyVMm35f53")
+                .setToken(redisTemplate.opsForValue().get("fcmToken"))
+
                 .putData("jsonData", jsonDataString)
                 .build();
 
