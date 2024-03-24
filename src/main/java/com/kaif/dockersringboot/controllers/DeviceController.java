@@ -86,11 +86,9 @@ public class DeviceController {
         // }
 
         try {
-            // Convert the jsonData map to a JSON string
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonDataString = objectMapper.writeValueAsString(jsonData);
         
-            // Build the FCM message
             Message message = Message.builder()
                     .setToken("fjFrS7TjTxjsONSCo92kK3:APA91bEtQtZ6CnxtDiEDQuxcqQ_6CbLiGt7IWjLYZNYknHOO-ZHILo0-7uQxZhfJIXRuLTlwb_6WIbRua_jTWH4RxfiGOkOWHP9vVa562nifY3NA7tXupeUMCcnEEbMOSWuyVMm35f53")
                     .putData("jsonData", jsonDataString)
@@ -102,6 +100,7 @@ public class DeviceController {
             return ResponseEntity.ok("Error sending FCM message: " + e.getMessage());
         }
     }
+
 
     // public ResponseEntity<?> saveDevice(@RequestBody Device payload) {
     // try {
