@@ -17,12 +17,14 @@ public class DockersringbootApplication {
 
     @Bean
     FirebaseMessaging firebaseMessagingBean() throws IOException {
-        var googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource("firebase-service-account.json").getInputStream());
+        if (FirebaseApp.getApps().isEmpty() || FirebaseApp.getInstance("my-app") == null) {
+            var googleCredentials = GoogleCredentials
+                    .fromStream(new ClassPathResource("firebase-service-account.json").getInputStream());
 
-        var firebaseOptions = FirebaseOptions.builder().setCredentials(googleCredentials).build();
-        var app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
-        return FirebaseMessaging.getInstance(app);
+            var firebaseOptions = FirebaseOptions.builder().setCredentials(googleCredentials).build();
+            FirebaseApp.initializeApp(firebaseOptions, "my-app");
+        }
+        return FirebaseMessaging.getInstance(FirebaseApp.getInstance("my-app"));
     }
 
     public static void main(String[] args) {
@@ -30,4 +32,3 @@ public class DockersringbootApplication {
     }
 
 }
-

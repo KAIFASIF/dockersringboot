@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.kaif.dockersringboot.entities.Device;
 import com.kaif.dockersringboot.publisher.DevicePublisher;
 import com.kaif.dockersringboot.services.FCMService;
-
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -23,17 +21,14 @@ public class DeviceContoller {
     @PostMapping("/send")
     public ResponseEntity<?> saveDevice(@RequestBody Device payload) {
         try {
-            devicePublisher.sendDeviceMessageToTopic(payload);
-
             if (payload.getCurrent() > 12) {
-                fcmService.sendNotificationByToken(payload);
+                fcmService.sendPushNotification(payload);
             }
-
-            return ResponseEntity.ok("Device json  published successfully ..");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.internalServerError()
-                    .build();
+            devicePublisher.sendDeviceMessageToTopic(payload);
+            return ResponseEntity.ok("json data published successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok("Error in publishing json data");
         }
     }
 

@@ -1,14 +1,13 @@
 package com.kaif.dockersringboot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import com.kaif.dockersringboot.entities.Device;
-import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 @Service
 public class FCMService {
@@ -16,30 +15,18 @@ public class FCMService {
     @Autowired
     private FirebaseMessaging firebaseMessaging;
 
-    // public void sendNotificationByToken(Device payload) throws
-    // FirebaseMessagingException {
+    public void sendPushNotification(Device payload) throws JsonProcessingException, FirebaseMessagingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValueAsString(objectMapper);
+        String jsonDataString = objectMapper.writeValueAsString(payload);
 
-    // var notification =
-    // Notification.builder().setTitle("Title").setBody("Body").build();
-    // var message = Message.builder().setToken(
-    // "dp_u97twW-QnwEgMVQFJuq:APA91bEM8wEhyn0KrbINtoHdWpT0asBCnBygHyRmw7Vmd_KeqhrTfXSjFQdGxpP7n_lP48CV59rgYWXAJidgwr6aqsDPBi7yILk_dfQABuHtXBGgfu3Wm0vwF-YzoicDfTgL9H5NJsiw")
-    // .setNotification(notification).build();
-    // firebaseMessaging.send(message);
-
-    // }
-
-    public void sendNotificationByToken(Device payload) throws FirebaseMessagingException {
-
-        System.out.println("*************************************************************");
-        System.out.println(payload);
-        System.out.println("*************************************************************");
-        var notification = Notification.builder().setTitle("Fault message").setBody("TBody description").build();
-        var jsonDataObj = new JSONObject(payload);
-        var message = Message.builder().setNotification(notification)
-                .putData("jsonDataObj", jsonDataObj.toString())
+        Message message = Message.builder()
+                .setToken(
+                        "fjFrS7TjTxjsONSCo92kK3:APA91bEtQtZ6CnxtDiEDQuxcqQ_6CbLiGt7IWjLYZNYknHOO-ZHILo0-7uQxZhfJIXRuLTlwb_6WIbRua_jTWH4RxfiGOkOWHP9vVa562nifY3NA7tXupeUMCcnEEbMOSWuyVMm35f53")
+                .putData("jsonData", jsonDataString)
                 .build();
-        firebaseMessaging.send(message);
 
+        firebaseMessaging.send(message);
     }
 
 }
