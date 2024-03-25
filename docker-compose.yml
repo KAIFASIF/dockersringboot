@@ -7,10 +7,14 @@ services:
     container_name: zookeeper_container
     ports:
       - "2181:2181"
+    networks:
+      - my_network
 
   kafka:
     image: wurstmeister/kafka
     container_name: kafka_container
+    networks:
+      - my_network
     ports:
       - "9092:9092"
     environment:
@@ -26,20 +30,29 @@ services:
       dockerfile: Dockerfile
     image: imageone
     container_name: imageone_container
+    links:
+      - redis
+    networks:
+      - my_network
     ports:
       - "9000:9000"
     depends_on:
       - kafka
       - redis
+      - postgres
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9093
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/kaifd
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
 
   postgres:
     image: postgres
     container_name: postgres_container
+    networks:
+      - my_network
     ports:
       - "5432:5432"
     environment:
@@ -47,13 +60,18 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
 
-  redis: 
+  redis:
     image: redis
     container_name: redis_container
+    networks:
+      - my_network
     ports:
       - "6379:6379"
 
-      
+networks:
+  my_network:
+    driver: bridge
+
 # # Production
 # version: "3.8"
 
